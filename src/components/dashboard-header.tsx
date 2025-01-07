@@ -13,20 +13,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Bell, LogIn, Search, Slash } from "lucide-react";
+import { Bell, LogIn, Search } from "lucide-react";
 
 const DashboardHeader = () => {
   return (
-    <div className="flex-1 flex items-center justify-between px-1">
+    <div className="flex-1 flex items-center justify-between px-1 pt-1">
       <div>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator>
-              <Slash />
-            </BreadcrumbSeparator>
+            <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink href="/components">Components</BreadcrumbLink>
             </BreadcrumbItem>

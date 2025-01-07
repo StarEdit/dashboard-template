@@ -1,4 +1,6 @@
+"use client";
 import {
+  CircleHelp,
   CreditCard,
   Home,
   LogIn,
@@ -8,9 +10,11 @@ import {
   User,
 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -19,26 +23,29 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const manages = [
   {
     title: "Home",
-    url: "#",
+    url: "/manage",
     icon: Home,
   },
   {
     title: "Tables",
-    url: "#",
+    url: "/manage/tables",
     icon: TableProperties,
   },
   {
     title: "Billing",
-    url: "#",
+    url: "/manage/billing",
     icon: CreditCard,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/manage/setting",
     icon: Settings,
   },
 ];
@@ -46,42 +53,60 @@ const manages = [
 const profiles = [
   {
     title: "Profile",
-    url: "#",
+    url: "/manage/profile",
     icon: User,
   },
   {
     title: "Sign In",
-    url: "#",
+    url: "/sign-in",
     icon: LogIn,
   },
   {
     title: "Sign Up",
-    url: "#",
+    url: "/sign-up",
     icon: LogOut,
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar>
-      <SidebarHeader className="text-center border-b-2 text-xl">
+      <SidebarHeader className="bg-background flex-row items-center justify-center text-xl h-12 border">
         Template
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-background">
         <SidebarGroup>
           <SidebarGroupLabel>Manage</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {manages.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {manages.map((item) => {
+                const isActive = item.url === pathname;
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <Link href={item.url}>
+                        <span
+                          className={cn("p-1 rounded-md", {
+                            "bg-primary": isActive,
+                          })}
+                        >
+                          <item.icon
+                            className={cn({
+                              "text-primary": !isActive,
+                              "text-white": isActive,
+                            })}
+                            size={14}
+                          />
+                        </span>
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -89,20 +114,48 @@ export function AppSidebar() {
           <SidebarGroupLabel>Profile</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {profiles.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {profiles.map((item) => {
+                const isActive = item.url === pathname;
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <Link href={item.url}>
+                        <span
+                          className={cn("p-1 rounded-md", {
+                            "bg-primary": isActive,
+                          })}
+                        >
+                          <item.icon
+                            className={cn({
+                              "text-primary": !isActive,
+                              "text-white": isActive,
+                            })}
+                            size={14}
+                          />
+                        </span>
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="bg-background">
+        <section className="border rounded-md flex flex-col justify-center p-4 bg-sidebar-footer bg-no-repeat bg-cover">
+          <div className="mb-4 bg-white w-fit rounded-md p-2">
+            <CircleHelp className="text-primary" />
+          </div>
+          <div className="font-bold">Need help?</div>
+          <div className="text-xs">Please check our docs</div>
+          <Button className="mt-2" variant="secondary">
+            DOCUMENTATION
+          </Button>
+        </section>
+      </SidebarFooter>
     </Sidebar>
   );
 }
